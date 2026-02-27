@@ -50,12 +50,12 @@
 ### 2.1 工作流程
 
 ```
-原始图片 → OCR提取 → 人工审核 → LLM增强 → 多模态校验 → 多语种翻译 → 数据修复 → 导出语料
-   ↓          ↓           ↓          ↓            ↓            ↓           ↓           ↓
- 605张    RapidOCR    Gradio   DeepSeek    Qwen 3.5    ja/bg/es   合并+补全    多格式
-                                   V3.2       Plus       多模型博弈
-                                    ↓
-                               OCR纠错+
+原始图片 → OCR提取 → 人工审核 → LLM增强 → 多模态校验 → 多语种翻译 → 音频对齐 → 数据修复 → 导出语料
+   ↓          ↓           ↓          ↓            ↓            ↓           ↓           ↓           ↓
+ 605张    RapidOCR    Gradio   DeepSeek    Qwen 3.5    ja/bg/es   Whisper    合并+补全    多格式
+                                   V3.2       Plus       多模型博弈  (faster-              脚本
+                                    ↓                               whisper)
+                               OCR纠错+                        CUDA加速
                               段落/句子分割
 ```
 
@@ -68,8 +68,9 @@
 | 三 | LLM增强 | 审核后文本 | 句子级对齐 | DeepSeek V3.2 |
 | 四 | 多模态校验 | 图片+文本 | 看图校验 | Qwen 3.5 Plus |
 | 五 | 多语种翻译 | 中英文本 | 日/西/保译文 | 多模型博弈翻译 |
-| 六 | 数据修复 | 缺漏数据 | 补全后数据 | 规则+LLM |
-| 七 | 导出 | 完整数据 | 多格式语料 | JSON/TMX |
+| 六 | 音频对齐 | 文本+录音 | 语音时间戳 | faster-whisper (RTX 3060) |
+| 七 | 数据修复 | 缺漏数据 | 补全后数据 | 规则+LLM |
+| 八 | 导出 | 完整数据 | 多格式语料 | JSON/TMX |
 
 ### 2.2 技术栈
 
@@ -80,6 +81,8 @@
 | 审核界面 | Gradio 6.x Web UI | 浏览器内操作，支持图片预览 |
 | **LLM 增强** | **DeepSeek V3.2 API** | **OCR 纠错 + 段落/句子级对齐，5线程并发** |
 | **多语种翻译** | **Gemini 3 Flash + Kimi K2.5 + Claude Sonnet 4.6（302.ai中转）** | **多模型并行 + LLM裁判，3语种×2翻译模型** |
+| 音频转录 | **faster-whisper** | **CUDA加速，本地GPU推理** |
+| 本地部署 | **RTX 3060 (12GB)** | **本地GPU加速推理** |
 | 数据格式 | JSON / TMX | 兼容主流翻译工具和 NLP 框架 |
 
 ### 2.3 模型选择依据
@@ -302,6 +305,8 @@ translations = translator.translate(text, target_langs=["ja", "es", "bg"])
 | **Anthropic Claude** | Claude Sonnet 4.6 | 保加利亚语翻译 |
 | **RapidOCR** | 开源 OCR 引擎 | 离线 OCR 识别 |
 | **Gradio** | Web UI 框架 | 人工审核界面 |
+| **faster-whisper** | 音频转录 | 本地GPU加速，CUDA推理 |
+| **RTX 3060** | 本地GPU部署 | 本地GPU加速推理 |
 
 ### AI 编程助手
 
