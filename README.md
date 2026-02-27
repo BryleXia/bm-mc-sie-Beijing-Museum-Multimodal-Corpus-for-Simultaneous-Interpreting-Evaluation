@@ -51,12 +51,9 @@
 
 ```
 原始图片 → OCR提取 → 人工审核 → LLM增强 → 多模态校验 → 多语种翻译 → 音频对齐 → 数据修复 → 导出语料
-   ↓          ↓           ↓          ↓            ↓            ↓           ↓           ↓           ↓
- 605张    RapidOCR    Gradio   DeepSeek    Qwen 3.5    ja/bg/es   Whisper    合并+补全    多格式
-                                   V3.2       Plus       多模型博弈  (faster-              脚本
-                                    ↓                               whisper)
-                               OCR纠错+                        CUDA加速
-                              段落/句子分割
+  (605张)  (RapidOCR)  (Gradio)  (DeepSeek)  (Qwen 3.5)  (多模型博弈)  (faster-whisper)  (合并补全)  (多格式)
+                                              V3.2         ja/bg/es     RTX 3060加速
+                                              Plus         翻译
 ```
 
 **阶段说明：**
