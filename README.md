@@ -79,7 +79,7 @@
 | **LLM 增强** | **DeepSeek V3.2 API** | **OCR 纠错 + 段落/句子级对齐，5线程并发** |
 | **多语种翻译** | **Gemini 3 Flash + Kimi K2.5 + Claude Sonnet 4.6（302.ai中转）** | **多模型并行 + LLM裁判，3语种×2翻译模型** |
 | 音频转录 | **faster-whisper** | **CUDA加速，本地GPU推理** |
-| 本地部署 | **RTX 3060 (12GB)** | **本地GPU加速推理** |
+| 本地部署 | **RTX 3060 (6GB)** | **本地GPU加速推理** |
 | 数据格式 | JSON / TMX | 兼容主流翻译工具和 NLP 框架 |
 
 ### 2.3 模型选择依据
@@ -303,7 +303,6 @@ translations = translator.translate(text, target_langs=["ja", "es", "bg"])
 | **RapidOCR** | 开源 OCR 引擎 | 离线 OCR 识别 |
 | **Gradio** | Web UI 框架 | 人工审核界面 |
 | **faster-whisper** | 音频转录 | 本地GPU加速，CUDA推理 |
-| **RTX 3060** | 本地GPU部署 | 本地GPU加速推理 |
 
 ### AI 编程助手
 
